@@ -1,0 +1,11 @@
+public class GetAccounts {
+    public String acclist{set;get;}
+    public GetAccounts(){
+        String searchString = ApexPages.currentPage().getParameters().get('term');
+        system.debug('value= '+searchString);
+        searchString = searchString+'%';
+        acclist = JSON.serialize([select Id,Name from account where name like :searchString]);
+       
+    } 
+    
+}

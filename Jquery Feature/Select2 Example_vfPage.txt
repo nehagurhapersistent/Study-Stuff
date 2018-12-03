@@ -1,0 +1,50 @@
+<apex:page >
+<head>
+    <title>Jquery Select2 - Select Box with Search Option</title>  
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+</head>
+    
+<body>
+<div style="width:520px;margin:0px auto;margin-top:30px;height:500px;">
+  <h2>Select Box with Search Option Jquery Select2.js</h2>
+  <select class="myselect" style="width:500px;">
+  </select>
+</div>
+
+
+<script type="text/javascript">
+		$(".myselect").select2({ 
+             ajax: {
+                 url: "/apex/testpage",
+                 dataType: 'json',
+                 delay: 250,
+                 data: function (params){
+                           return{ 
+                               term: params.term, //search term   
+                       };
+                           },
+                 processResults: function (data, params) {
+                         // parse the results into the format expected by Select2.
+                         // since we are using custom formatting functions we do not need to
+                         // alter the remote JSON data
+                         params.page = params.page || 1;
+                       // you should map the id and text attributes on version 4.0
+                       var select2Data = $.map(data, function (obj) {
+                           obj.id = obj.Id;
+                           obj.text = obj.Name;
+                           return obj;
+                       });
+                       return {
+                           results: select2Data
+                       };
+                     },
+       }
+});   
+    
+</script>
+
+
+</body>
+</apex:page>
